@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 from . import utils as utl
 
@@ -20,8 +19,13 @@ class Account(models.Model):
     invite_code = models.CharField(
         max_length=10,
         unique=True,
-        null=False,
+        null=True,
         verbose_name='Инвайт-код'
+    )
+    register_code = models.CharField(
+        max_length=4,
+        null=True,
+        verbose_name="Код регистрации",
     )
 
     def __str__(self):
