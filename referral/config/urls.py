@@ -26,4 +26,6 @@ urlpatterns = [
     path('account/list/<str:pk>/', views.AccountDetailsList.as_view()),
     path('account/auth/start/', views.start_register),
     path('account/auth/end/', views.end_register),
+    path('account/form/auth/start/', views.phone_form),
+    path('account/form/auth/end/', views.reg_code_form),
 ]

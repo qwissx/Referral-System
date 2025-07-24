@@ -58,3 +58,11 @@ def end_register(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+def phone_form(request):
+    return render(request, 'start_reg.html')
+
+@api_view(['GET'])
+def reg_code_form(request):
+    return render(request, 'end_reg.html')
