@@ -42,7 +42,7 @@ class AccountDetailsList(APIView):
 
 @api_view(['POST'])
 def start_register(request):
-    serializer = srl.AccountSCreateS(data=request.data)
+    serializer = srl.AccountCreateSS(data=request.data)
     if serializer.is_valid():
         message = AccountService.start_register(tel_number=serializer.validated_data['phone_number'])
         return Response({'message': message}, status=status.HTTP_200_OK)
@@ -51,7 +51,7 @@ def start_register(request):
 
 @api_view(['POST'])
 def end_register(request):
-    serializer = srl.AccountECreateS(data=request.data)
+    serializer = srl.AccountCreateES(data=request.data)
     if serializer.is_valid():
         account = AccountService.end_register(verification_code=serializer.validated_data['verification_code'])
         serializer = srl.AccountDisplayS(account)

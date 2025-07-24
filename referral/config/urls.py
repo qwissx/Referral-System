@@ -24,4 +24,6 @@ urlpatterns = [
     path('account/', views.AccountList.as_view()),
     path('account/<str:pk>/', views.AccountDetails.as_view()),
     path('account/list/<str:pk>/', views.AccountDetailsList.as_view()),
+    path('account/auth/start/', views.start_register),
+    path('account/auth/end/', views.end_register),
 ]

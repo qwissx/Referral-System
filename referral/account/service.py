@@ -16,14 +16,15 @@ class AccountService:
                 'invite_account': None,
             },
         )
-        account.registration_code = verification_code
+        account.register_code = verification_code
         print("Код регистрации ============>", verification_code)
+        account.save()
         return 'Success'
        
 
     @classmethod
     def end_register(cls, verification_code: int):
-        account = cls.get_account_or_404(registration_code=verification_code)
+        account = cls.get_account_or_404(register_code=verification_code)
         invite_code = utl.generate_invite_code()
         account.invite_code = invite_code
         account.save()
