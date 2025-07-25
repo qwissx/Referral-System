@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка 4-значного кода</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .error {
+            background-color: #ffdddd;
+            color: #d8000c;
+        }
+        .success {
+            background-color: #ddffdd;
+            color: #4F8A10;
+        }
+    </style>
+</head>
+<body>
+    <h2>Введите 4-значный код</h2>
+    <form id="codeForm">
+        <div class="form-group">
+            <input type="text" id="code" name="code" 
+                   placeholder="Введите 4 цифры" 
+                   maxlength="4" 
+                   pattern="\d{4}" 
+                   required>
+        </div>
+        <button type="submit">Проверить</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const urlParams = new URLSearchParams(window.location.search);
+            var phone = urlParams.get('phone_number'); 
+            const code = document.getElementById('code').value;
+            const messageEl = document.getElementById('message');
+            
+            if (phone.charAt(0) === " ") {
+               phone = "+" + phone.slice(1); 
+            }
+
+            if (!/^\d{4}$/.test(code)) {
+                messageEl.textContent = 'Пожалуйста, введите ровно 4 цифры';
+                messageEl.className = 'error';
+                messageEl.style.display = 'block';
+                return;
+            }
+            
+            const apiUrl = 'http://localhost:8000/account/auth/verify-code/';
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ verification_code: code }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageEl.textContent = data.message || 'Код проверен';
+                messageEl.className = data.success ? 'success' : 'error';
+                messageEl.style.display = 'block';
+                window.location.href = `http://localhost:8000/account/${phone}/`;
+            })
+            .catch(error => {
+                messageEl.textContent = 'Ошибка при отправке запроса: ' + error.message;
+                messageEl.className = 'error';
+                messageEl.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

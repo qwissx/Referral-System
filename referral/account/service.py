@@ -1,12 +1,12 @@
 from django.http import Http404
 
 from .models import Account
-
 from . import utils as utl
+
 
 class AccountService:
     @staticmethod
-    def start_register(tel_number: str):
+    def send_code(tel_number: str):
         tel_num = utl.check_number(tel_number)
         verification_code = utl.generate_verification_code()
         account, created = Account.objects.get_or_create(
@@ -17,13 +17,13 @@ class AccountService:
             },
         )
         account.register_code = verification_code
-        print("Код регистрации ============>", verification_code)
+        utl.tg_send_verification_code(tel_num, verification_code)
         account.save()
         return 'Success'
        
 
     @classmethod
-    def end_register(cls, verification_code: int):
+    def verify_code(cls, verification_code: int):
         account = cls.get_account_or_404(register_code=verification_code)
         invite_code = utl.generate_invite_code()
         account.invite_code = invite_code

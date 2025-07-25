@@ -75,10 +75,8 @@
             const phone = document.getElementById('phone').value;
             const responseDiv = document.getElementById('response');
             
-            // Ваш URL для отправки данных
-            const apiUrl = 'http://localhost:8000/account/auth/start/';
-            
-            // Отправка данных
+             const apiUrl = 'http://localhost:8000/account/auth/send-code/';
+
             fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -95,6 +93,7 @@
             .then(data => {
                 responseDiv.textContent = 'Успешно отправлено: ' + JSON.stringify(data);
                 responseDiv.className = 'success';
+              window.location.href = `http://localhost:8000/form/account/auth/verify-code?phone_number=${phone}`;
             })
             .catch(error => {
                 responseDiv.textContent = 'Ошибка: ' + error.message;

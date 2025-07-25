@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о пользователе</title>
+    <style>
+        .user-info {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .user-info h2 {
+            color: #333;
+            text-align: center;
+        }
+        .info-field {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 3px;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            margin-top: 5px;
+            color: #222;
+        }
+        .invited-users {
+            margin-top: 20px;
+        }
+        .invited-user {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+            border-left: 3px solid #4CAF50;
+        }
+        .code-form {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 50%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-info">
+        <h2>Информация о пользователе</h2>
+        
+        <div class="info-field">
+            <div class="label">Номер телефона:</div>
+            <div class="value">{{ account.phone_number }}</div>
+        </div>
+        
+        <div class="info-field">
+            <div class="label">Инвайт-код:</div>
+            <div class="value">{{ account.invite_code|default:"Не указан" }}</div>
+        </div>
+        
+        {% if account.invite_account %}
+        <div class="info-field">
+            <div class="label">Приглашен пользователем:</div>
+            <div class="value">{{ account.invite_account.phone_number }} ({{ account.invite_account.invite_code }})</div>
+        </div>
+        {% endif %}
+        
+        {% if account.invited_accounts.all %}
+        <div class="info-field invited-users">
+            <div class="label">Приглашенные пользователи:</div>
+            {% for invited in account.invited_accounts.all %}
+                <div class="invited-user">
+                    {{ invited.phone_number }} ({{ invited.invite_code|default:"без кода" }})
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+      <form class="code-form" id="codeForm">
+        <div class="form-group">
+            <label for="code">Код приглашения:</label>
+            <input type="text" id="code" name="code" placeholder="1234AB" required>
+        </div>
+        
+        <button type="submit">Зарегестрировать</button>
+    </form>
+    
+    <div id="response"></div>
+
+    </div>
+
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const code = document.getElementById('code').value;
+            const messageEl = document.getElementById('message');
+            
+            const apiUrl = 'http://localhost:8000/account/{{ account.phone_number }}/';
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ invite_code: code }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageEl.textContent = data.message || 'Код проверен';
+                messageEl.className = data.success ? 'success' : 'error';
+                messageEl.style.display = 'block';
+            })
+            .catch(error => {
+                messageEl.textContent = 'Ошибка при отправке запроса: ' + error.message;
+                messageEl.className = 'error';
+                messageEl.style.display = 'block';
+            });
+        });
+    </script>
+
+</body>
+</html>

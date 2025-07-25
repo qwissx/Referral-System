@@ -18,8 +18,7 @@ class AccountList(APIView):
 class AccountDetails(APIView):
     def get(self, request, pk, format=None):
         account = AccountService.get_account_or_404(phone_number=pk)
-        serializer = srl.AccountDisplayS(account)
-        return Response(serializer.data)
+        return render(request, 'profile.html', {'account': account})
 
     def post(self, request, pk, format=None):
         serializer = srl.AccountInviteCodeS(data=request.data)
@@ -33,36 +32,29 @@ class AccountDetails(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AccountDetailsList(APIView):
-    def get(self, request, pk, format=None):
-        accounts = AccountService.get_all_invited_accounts(tel_number=pk)
-        serializer = srl.AccountDisplayS(accounts, many=True)
-        return Response(serializer.data)
-
-
 @api_view(['POST'])
-def start_register(request):
+def send_code(request):
     serializer = srl.AccountCreateSS(data=request.data)
     if serializer.is_valid():
-        message = AccountService.start_register(tel_number=serializer.validated_data['phone_number'])
-        return Response({'message': message}, status=status.HTTP_200_OK)
+        message = AccountService.send_code(tel_number=serializer.validated_data['phone_number'])
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
-def end_register(request):
+def verify_code(request):
     serializer = srl.AccountCreateES(data=request.data)
     if serializer.is_valid():
-        account = AccountService.end_register(verification_code=serializer.validated_data['verification_code'])
+        account = AccountService.verify_code(verification_code=serializer.validated_data['verification_code'])
         serializer = srl.AccountDisplayS(account)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
-def phone_form(request):
-    return render(request, 'start_reg.html')
+def send_code_form(request):
+    return render(request, 'send_code.html')
 
 @api_view(['GET'])
-def reg_code_form(request):
-    return render(request, 'end_reg.html')
+def verify_code_form(request):
+    return render(request, 'verify_code.html')

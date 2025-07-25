@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "95adb2fc-cd16-4b96-9269-3c54da9f8abf",
+		"name": "REST API basics: CRUD, test & variable",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43687575"
+	},
+	"item": [
+		{
+			"name": "Get account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/account/{{phone_number_01}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"{{phone_number_01}}",
+						""
+					]
+				},
+				"description": "### Request Description\n\nThis is a **GET** request used to retrieve account information associated with a specific phone number. The endpoint is structured as follows: `{{base_url}}/account/{{phone_number_01}}/`, where `{{phone_number_01}}` is a placeholder for the actual phone number of the account you wish to access.\n\n### Expected Input Parameters\n\n- **phone_number_01**: The phone number associated with the account. This should be provided in the URL path.\n    \n\n### Response Structure\n\nA successful response will return a **200 OK** status, indicating that the request was processed successfully. The response will typically contain HTML content, but the specific structure may vary based on the implementation. Ensure to check the content type in the response headers for the format of the returned data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get verify code form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/form/account/auth/verify-code",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"form",
+						"account",
+						"auth",
+						"verify-code"
+					]
+				},
+				"description": "## Endpoint\n\n`GET {{base_url}}/form/account/auth/verify-code`\n\n## Method\n\n`GET`\n\n## Description\n\nThis endpoint is used to verify a code associated with an account. It retrieves HTML form that help ro verify code.\n\n## Expected Responses\n\n- **200 OK**: The request was successful, and the response body will contain the verification result, typically in JSON format.\n    \n- **Other Status Codes**: Depending on the outcome of the verification, other HTTP status codes may be returned, such as `400 Bad Request` for invalid parameters or `404 Not Found` if the account does not exist.\n    \n\nEnsure to include the necessary query parameters when making the request to receive the appropriate response."
+			},
+			"response": []
+		},
+		{
+			"name": "Get send code form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/form/account/auth/send-code",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"form",
+						"account",
+						"auth",
+						"send-code"
+					]
+				},
+				"description": "### Request: Send Authentication Code\n\nThis is a **GET** request to the endpoint `{{base_url}}/form/account/auth/send-code`. It is used to initiate the process of sending an authentication code to the user, for verification purposes.\n\nA successful response will return a **200 OK** status, indicating that the request was processed successfully. The response body contain HTML body, that help to register phone number."
+			},
+			"response": []
+		},
+		{
+			"name": "Register invite code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"invite_code\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/account/{{phone_number_02}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"{{phone_number_02}}",
+						""
+					]
+				},
+				"description": "## Request Description\n\nThis is a **POST** request used to invite a user to an account using their phone number. The request is sent to the endpoint `{{base_url}}/account/{{phone_number_02}}/`.\n\n### Request Body\n\nThe request requires a JSON payload with the following structure:\n\n``` json\n{\n  \"invite_code\": \"<string>\"\n}\n\n ```\n\n- **invite_code**: A string parameter representing the invitation code.\n    \n\n### Response Structure\n\nA successful response will return a `200 OK` status. The response body will typically contain a JSON object with details regarding the success of the invitation process or any relevant information related to the request."
+			},
+			"response": []
+		},
+		{
+			"name": "Send code reg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_number\": \"{{phone_number_01}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/account/auth/send-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"auth",
+						"send-code",
+						""
+					]
+				},
+				"description": "### Request Description\n\nThis is a **POST** request to the endpoint `{{base_url}}/account/auth/send-code/`. The request is designed to send a verification code to the provided phone number.\n\n#### Request Body\n\nThe request body should be in JSON format and must include the following parameter:\n\n- **phone_number** (string): The phone number to which the verification code will be sent. This parameter is required. Matching expression: +7111111111.\n    \n\n#### Expected Response\n\nOn a successful request, the server will respond with:\n\n- **Status Code**: `200 OK`\n    \n- **Response Body**: An empty string.\n    \n\n#### Notes\n\n- Ensure that the phone number is formatted correctly to avoid errors.\n    \n- This endpoint is typically used in the authentication process to verify user identity via SMS."
+			},
+			"response": []
+		},
+		{
+			"name": "Verify code reg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"verification_code\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/account/auth/verify-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"auth",
+						"verify-code",
+						""
+					]
+				},
+				"description": "### Verify Code API\n\nThis is a **POST** request to the endpoint `{{base_url}}/account/auth/verify-code/`.\n\n#### Request Parameters\n\n- **verification_code** (string): The verification code to be validated.\n    \n\nThe request body should be formatted as JSON, containing the `verification_code`.\n\n#### Expected Response\n\nA successful POST request typically returns a `201 Created` response code, indicating that the verification process was successful. The response will include relevant data based on the verification outcome."
+			},
+			"response": []
+		},
+		{
+			"name": "Clean all accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/account/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						""
+					]
+				},
+				"description": "### DELETE Request to Remove All Accounts For Test\n\nThis is a **DELETE** request used to remove all accounts from the system.\n\n#### Expected Response\n\nA successful DELETE request typically returns one of the following HTTP status codes:\n\n- `200 OK`: The request was successful, and the account has been deleted.\n    \n\n#### Notes\n\n- Deletion is irreversible; once an accounts are deleted, it cannot be recovered."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		}
+	]
+}

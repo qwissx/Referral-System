@@ -23,9 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', views.AccountList.as_view()),
     path('account/<str:pk>/', views.AccountDetails.as_view()),
-    path('account/list/<str:pk>/', views.AccountDetailsList.as_view()),
-    path('account/auth/start/', views.start_register),
-    path('account/auth/end/', views.end_register),
-    path('account/form/auth/start/', views.phone_form),
-    path('account/form/auth/end/', views.reg_code_form),
+    path('account/auth/send-code/', views.send_code),
+    path('account/auth/verify-code/', views.verify_code),
+    path('form/account/auth/send-code', views.send_code_form),
+    path('form/account/auth/verify-code', views.verify_code_form),
 ]
