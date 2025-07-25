@@ -27,6 +27,7 @@ class AccountService:
         account = cls.get_account_or_404(register_code=verification_code)
         invite_code = utl.generate_invite_code()
         account.invite_code = invite_code
+        account.register_code = None
         account.save()
         return account
         
