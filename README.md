@@ -29,7 +29,7 @@ docker run --name main \
 
 Запускаем контейнер python приложения.
 ```bash 
-docker run --name test -p 8000:8000 weather
+docker run --name test -p 8000:8000 referral
 ```
 
 Загружаем миграции базы данных.
