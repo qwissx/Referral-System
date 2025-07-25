@@ -6,6 +6,4 @@ from telethon.sync import TelegramClient
 load_dotenv()
 
 with TelegramClient('sender', os.getenv('TG_API_ID'), os.getenv('TG_API_HASH'))as client:
-    client.start()
-    client.stop()
-
+    client.send_message('me', 'You created session file')
