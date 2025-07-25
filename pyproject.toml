@@ -10,4 +10,5 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.1.1",
     "telethon>=1.40.0",
+    "uvicorn>=0.35.0",
 ]
